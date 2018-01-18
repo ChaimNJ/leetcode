@@ -6,7 +6,7 @@ import java.util.*;
 public class Solution {
     /**
      * Time Limit Exceeded
-     * @param nums
+     * @param nums 0(n^3)
      * @return
      */
     public static List<List<Integer>> threeSum(int[] nums) {
@@ -20,12 +20,7 @@ public class Solution {
                         tmp.add(nums[i]);
                         tmp.add(nums[j]);
                         tmp.add(nums[k]);
-                        tmp.sort(new Comparator<Integer>() {
-                            @Override
-                            public int compare(Integer o1, Integer o2) {
-                                return o1-o2;
-                            }
-                        });
+                        tmp.sort((o1, o2) -> o1-o2);
                         if(!list.contains(tmp)) {
                             list.add(tmp);
                         }
@@ -38,8 +33,12 @@ public class Solution {
     }
 
 
-
-public static List<List<Integer>> threeSum1(int[] nums) {
+    /**
+     * TimeLimitExceed
+     * @param nums
+     * @return
+     */
+    public static List<List<Integer>> threeSum1(int[] nums) {
         Arrays.sort(nums);
     List<List<Integer>> list = new ArrayList<>();
         if(nums.length<3){
@@ -74,28 +73,40 @@ public static List<List<Integer>> threeSum1(int[] nums) {
     return list;
 }
 
-
-public static List<List<Integer>> threeSum2(int[] nums) {
+    /**
+     * 先对数组排序
+     * 对每个元素进行剩下的元素中，每两个元素的求和
+     * 若元素重复则跳过
+     * 在两个元素求和过程中，若小于所要的值，则前面指针后移；反之，后面指针前移。
+     * 相等，判断下一个值和当前值是否相等，相等则跳过；不相等，则前后指针同时移动一位，
+     * @param nums
+     * @return
+     */
+    public static List<List<Integer>> threeSum2(int[] nums) {
     Arrays.sort(nums);
     List<List<Integer>> list = new ArrayList<>();
-    for (int i = 0; i < nums.length-2; i++){
-        if(i==0||nums[i]!=nums[i-1]){
-            int start = i+1;
-            int end = nums.length - 1;
-            int sum = 0 - nums[i];
-            while (start<end) {
-                if (nums[start] + nums[end] == sum) {
-                    list.add(Arrays.asList(nums[i], nums[start], nums[end]));
-                    while(start<end&&nums[start]==nums[start+1]){start++;}
-                    while(start<end&&nums[end]==nums[end-1]){end--;}
-                    start++;
-                    end--;
-                } else if (nums[start] + nums[end] < sum) {
-                    start++;
-                }else{
-                    end--;
+    for (int i = 0; i < nums.length-2; i++) {
+            if (i == 0 || nums[i] != nums[i - 1]) {
+                int start = i + 1;
+                int end = nums.length - 1;
+                int sum = 0 - nums[i];
+                while (start < end) {
+                    if (nums[start] + nums[end] == sum) {
+                        list.add(Arrays.asList(nums[i], nums[start], nums[end]));
+                        while (start < end && nums[start] == nums[start + 1]) {
+                            start++;
+                        }
+                        while (start < end && nums[end] == nums[end - 1]) {
+                            end--;
+                        }
+                        start++;
+                        end--;
+                    } else if (nums[start] + nums[end] < sum) {
+                        start++;
+                    } else {
+                        end--;
+                    }
                 }
-            }
         }
     }
     return list;
