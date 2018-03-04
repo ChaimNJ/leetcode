@@ -34,7 +34,8 @@ public class Solution {
     private void backtrack(List<List<Integer>> list, List<Integer> tmp,int[] candidates, int remain, int start) {
         if(remain<0) return;
         else if(remain==0){
-            list.add(new ArrayList<>(tmp));
+//            if(!list.contains(tmp))
+                list.add(new ArrayList<>(tmp));
         }else{
             for (int i = start; i < candidates.length; i++) {
                 tmp.add(candidates[i]);
@@ -44,5 +45,9 @@ public class Solution {
         }
     }
 
+    public static void main(String[] args) {
+
+        System.out.println(new Solution().combinationSum(new int[]{10, 1, 2, 7, 6, 1, 5},8));
+    }
 
 }
