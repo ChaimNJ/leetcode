@@ -6,37 +6,37 @@ import java.util.Arrays;
 
 public class Sort {
     public static void main(String[] args) {
-        int[] nums = new int[]{4,5,1,3,6,2};
+        int[] nums = new int[]{9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
 //        BubbleSort(nums);
 //        SelectionSort(nums);
 //        InsertionSort(nums);
 //        ShellSort(nums);
 //        MergeSort(nums,new int[nums.length],0,nums.length-1);
-       QuickSort(nums,0,nums.length-1);
-        for (int i = 0; i < nums.length; i++) {
-            System.out.print(nums[i]+ " ");
-        }
+//        QuickSort(nums, 0, nums.length - 1);
+        HeapSort(nums);
+        System.out.println(Arrays.toString(nums));
     }
-    public static  void BubbleSort(int[] nums) {
+
+    public static void BubbleSort(int[] nums) {
         boolean flag = true;
         for (int i = 0; i < nums.length && flag == true; i++) {
             flag = false;
-            for (int j = 0; j < nums.length - i - 1 ; j++) {
-                if(nums[j] > nums[j+1]){
+            for (int j = 0; j < nums.length - i - 1; j++) {
+                if (nums[j] > nums[j + 1]) {
                     int tmp = nums[j];
-                    nums[j] = nums[j+1];
-                    nums[j+1] = tmp;
+                    nums[j] = nums[j + 1];
+                    nums[j + 1] = tmp;
                     flag = true;
                 }
             }
         }
     }
 
-    public static void SelectionSort(int[] nums){
+    public static void SelectionSort(int[] nums) {
         for (int i = 0; i < nums.length; i++) {
             int min = i;
-            for (int j = i + 1; j < nums.length ; j++) {
-                if(nums[min] > nums[j]){
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[min] > nums[j]) {
                     min = j;
                 }
             }
@@ -46,85 +46,116 @@ public class Sort {
         }
     }
 
-    public static void InsertionSort(int[] nums){
+    public static void InsertionSort(int[] nums) {
         for (int i = 1; i < nums.length; i++) {
-            int pre = i-1;
+            int pre = i - 1;
             int current = nums[i];
-            while(pre>=0&&nums[pre]>current){
-                nums[pre+1] = nums[pre];
+            while (pre >= 0 && nums[pre] > current) {
+                nums[pre + 1] = nums[pre];
                 pre--;
             }
-            nums[pre+1] = current;
+            nums[pre + 1] = current;
         }
     }
 
-    public static void ShellSort(int[] nums){
-        for (int gap = nums.length/2; gap >=1 ; gap=gap/2) {
-            for (int i = gap; i < nums.length; i+=gap) {
-                int pre = i-gap;
+    public static void ShellSort(int[] nums) {
+        for (int gap = nums.length / 2; gap >= 1; gap = gap / 2) {
+            for (int i = gap; i < nums.length; i += gap) {
+                int pre = i - gap;
                 int current = nums[i];
-                while(pre>=0&&nums[pre]>current){
-                    nums[pre+gap] = nums[pre];
-                    pre-=gap;
+                while (pre >= 0 && nums[pre] > current) {
+                    nums[pre + gap] = nums[pre];
+                    pre -= gap;
                 }
-                nums[pre+gap] = current;
+                nums[pre + gap] = current;
             }
         }
     }
 
-    public static void MergeSort(int[] nums,int[] tmp,int start,int end){
-        if((end-start)<2){
+    public static void MergeSort(int[] nums, int[] tmp, int start, int end) {
+        if ((end - start) < 2) {
             return;
         }
-        int mid =(end+start)/2;
-        MergeSort(nums,tmp,start,mid);
-        MergeSort(nums,tmp,mid+1,end);
-        Merge(nums,tmp,start,mid,end);
+        int mid = (end + start) / 2;
+        MergeSort(nums, tmp, start, mid);
+        MergeSort(nums, tmp, mid + 1, end);
+        Merge(nums, tmp, start, mid, end);
     }
-    public static  void Merge(int[] nums,int[] tmp,int start,int mid,int end){
+
+    public static void Merge(int[] nums, int[] tmp, int start, int mid, int end) {
         int i = start;
-        int j = mid+1;
+        int j = mid + 1;
         int k = 0;
-        while(i<=mid&&j<=end){
-            if(nums[i]<nums[j]){
-                tmp[k++]=nums[i++];
-            }else{
-                tmp[k++]=nums[j++];
+        while (i <= mid && j <= end) {
+            if (nums[i] < nums[j]) {
+                tmp[k++] = nums[i++];
+            } else {
+                tmp[k++] = nums[j++];
             }
         }
-        while(i<=mid){
-            tmp[k++]=nums[i++];
+        while (i <= mid) {
+            tmp[k++] = nums[i++];
         }
-        while(j<=end){
-            tmp[k++]=nums[j++];
+        while (j <= end) {
+            tmp[k++] = nums[j++];
         }
-        for (int l = 0,p = start; p <= end; l++,p++) {
-            nums[p]=tmp[l];
+        for (int l = 0, p = start; p <= end; l++, p++) {
+            nums[p] = tmp[l];
         }
     }
 
-    public static void QuickSort(int[] nums,int start,int end){
-        if(start<end){
-            int pivot = partition(nums,start,end);
-            QuickSort(nums,start,pivot-1);
-            QuickSort(nums,pivot+1,end);
+    public static void QuickSort(int[] nums, int start, int end) {
+        if (start < end) {
+            int pivot = partition(nums, start, end);
+            QuickSort(nums, start, pivot - 1);
+            QuickSort(nums, pivot + 1, end);
         }
     }
-    public static int partition(int[] nums,int start,int end){
+
+    public static int partition(int[] nums, int start, int end) {
         int pivot = nums[start];
-        while (start<end){
-            while(start<end && nums[end]>=pivot) end--;
-            nums[start]=nums[end];
-            while (start < end && nums[start]<=pivot) start++;
-            nums[end]=nums[start];
-            }
-            nums[start] = pivot;
+        while (start < end) {
+            while (start < end && nums[end] >= pivot) end--;
+            nums[start] = nums[end];
+            while (start < end && nums[start] <= pivot) start++;
+            nums[end] = nums[start];
+        }
+        nums[start] = pivot;
         return start;
+    }
+
+    public static void HeapSort(int[] nums) {
+        for (int i = nums.length / 2 - 1; i >= 0; i--) {
+            HeapAdjust(nums, i, nums.length);
+        }
+        for (int i = nums.length - 1; i >= 0; i--) {
+            swap(nums, 0, i);
+            HeapAdjust(nums, 0, i);
         }
 
 
+    }
 
+    public static void HeapAdjust(int[] nums, int i, int length) {
+        int tmp = nums[i];
+        for (int j = 2*i+1; j < length; j=j*2+1) {
+            if(j+1<length && nums[j]<nums[j+1]){
+                j++;
+            }
+            if(nums[j]>nums[i]){
+                swap(nums,i,j);
+                i=j;
+            }else{
+                break;
+            }
+        }
+    }
 
-    
+    public static void swap(int[] nums, int a, int b) {
+        int tmp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = tmp;
+    }
+
 
 }
